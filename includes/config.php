@@ -109,7 +109,7 @@
 		{
 			global $dbh;
 			$this->connect();
-			$stmt = $dbh->prepare("SELECT id, username, password, email, level, points FROM users WHERE username = :username");
+			$stmt = $dbh->prepare("SELECT id, username, password, email, level FROM users WHERE username = :username");
 			$stmt->bindParam(':username', $user);
 			$stmt->execute();
 			$getLevel = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -127,7 +127,7 @@
 		{
 			global $dbh;
 			$this->connect();
-			$stmt = $dbh->prepare("SELECT id, username, password, email, level, points FROM users WHERE username = :username");
+			$stmt = $dbh->prepare("SELECT id, username, password, email, level FROM users WHERE username = :username");
 			$stmt->bindParam(':username', $user);
 			$stmt->execute();
 			$getLevel = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -179,24 +179,11 @@
 			}
 		}
 		
-		/* Restrict lower points users from certain pages */
-		function onlyPoints($allow, $pointlevel)
-		{
-			if ($allow <= $pointlevel)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		
 		/* Get the users gravatar */
 		function getGravatar($user)
 		{
 			$dbh = new PDO("mysql:host=".DB_HOSTNAME.";dbname=".DB_NAME, DB_USERNAME, DB_PASSWORD);
-			$stmt = $dbh->prepare("SELECT id, username, password, email, level, points FROM users WHERE username = :username");
+			$stmt = $dbh->prepare("SELECT id, username, password, email, level FROM users WHERE username = :username");
 			$stmt->bindParam(':username', $user);
 			$stmt->execute();
 			$getEmail = $stmt->fetchAll(PDO::FETCH_ASSOC);
